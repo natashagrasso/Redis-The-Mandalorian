@@ -1,13 +1,13 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
-# CORRECCIÓN: Importamos las funciones con los nombres EXACTOS que tienen en services.py
+
 from services import inicializar_datos, obtener_episodios, reservar_capitulo, confirmar_alquiler
 
 app = Flask(__name__)
-# Habilitamos CORS para que el Frontend (React) pueda hablar con este Backend
+
 CORS(app)
 
-# Cargar datos iniciales en Redis al arrancar la aplicación
+
 with app.app_context():
     inicializar_datos()
 
@@ -16,7 +16,7 @@ with app.app_context():
 @app.route('/api/episodios', methods=['GET'])
 def listar():
     """Devuelve la lista de episodios con sus estados (Disponible/Reservado/Alquilado)."""
-    # Usamos la función con el nombre corregido
+
     lista = obtener_episodios()
     return jsonify(lista)
 
@@ -34,13 +34,13 @@ def pagar(id):
     body = request.get_json()
     monto = body.get('monto', 0) if body else 0
     
-    # Usamos la función con el nombre corregido
+
     exito, mensaje = confirmar_alquiler(id, monto)
     
-    codigo_http = 200 if exito else 400 # 400 Bad Request si la reserva expiró
+    codigo_http = 200 if exito else 400
     return jsonify({"exito": exito, "mensaje": mensaje}), codigo_http
 
 # --- ARRANQUE ---
 if __name__ == '__main__':
-    # Escuchamos en 0.0.0.0 para que Docker exponga el puerto correctamente
+ 
     app.run(host='0.0.0.0', port=5000, debug=True)
