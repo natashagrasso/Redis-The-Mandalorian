@@ -3,7 +3,7 @@
 body {
   margin: 0;
   padding: 0;
-  /* Fondo oscuro estilo espacial */
+
   background-color: #0d1117;
   background-image: radial-gradient(
     circle at 50% 50%,
@@ -20,11 +20,11 @@ h2,
 h3,
 h4,
 h5 {
-  font-family: 'Orbitron', sans-serif; /* Fuente futurista */
+  font-family: 'Orbitron', sans-serif;
   letter-spacing: 2px;
 }
 
-/* Tarjetas con efecto de cristal ahumado */
+
 .card-mandalorian {
   background: rgba(33, 38, 45, 0.9);
   border: 1px solid #30363d;
@@ -35,10 +35,10 @@ h5 {
 .card-mandalorian:hover {
   transform: translateY(-5px);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
-  border-color: #f7b926; /* Amarillo Mandalorian */
+  border-color: #f7b926; 
 }
 
-/* Botones personalizados */
+
 .btn-mando {
   background-color: #f7b926;
   color: #000;
