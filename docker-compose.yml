@@ -2,7 +2,6 @@ version: '3.8'
 
 services:
   #BASE DE DATOS (Redis)
-
   redis:
     image: redis:alpine
     container_name: mandalorian_redis
