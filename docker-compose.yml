@@ -1,13 +1,12 @@
 version: '3.8'
 
 services:
-  # ------------------------------------------------
-  # 1. BASE DE DATOS (Redis)
-  # ------------------------------------------------
+  #BASE DE DATOS (Redis)
+
   redis:
     image: redis:alpine
     container_name: mandalorian_redis
-    # Buena práctica: Activar 'appendonly' para que los datos no se borren al reiniciar
+  
     command: redis-server --appendonly yes
     ports:
       - "${REDIS_PORT}:6379"
@@ -15,16 +14,16 @@ services:
       - redis_data:/data
     networks:
       - app_network
-    # Buena práctica: Healthcheck para avisar cuando está realmente listo
+  
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 5s
       timeout: 5s
       retries: 5
 
-  # ------------------------------------------------
-  # 2. BACKEND (API Python Flask)
-  # ------------------------------------------------
+
+  # BACKEND (API Python Flask)
+
   backend:
     build: ./backend
     container_name: mandalorian_api
@@ -33,7 +32,7 @@ services:
     volumes:
       - ./backend:/app
     environment:
-      # Conectamos con el servicio 'redis' definido arriba
+   
       - REDIS_HOST=redis
       - REDIS_PORT=6379
       - PORT=5000
@@ -43,9 +42,8 @@ services:
     networks:
       - app_network
 
-  # ------------------------------------------------
-  # 3. FRONTEND (React Vite)
-  # ------------------------------------------------
+  # FRONTEND (React Vite)
+
   frontend:
     build: ./frontend
     container_name: mandalorian_web
@@ -55,16 +53,16 @@ services:
       - ./frontend:/app
       - /app/node_modules
     environment:
-      # Le pasamos la URL del backend para que sepa a dónde hacer las peticiones
+   
       - VITE_API_URL=http://localhost:${API_PORT}
     networks:
       - app_network
 
-# Definición de volúmenes para persistencia
+
 volumes:
   redis_data:
 
-# Definición de la red interna
+
 networks:
   app_network:
     driver: bridge
